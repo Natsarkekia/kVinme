@@ -1,0 +1,204 @@
+/* Global styles */
+body {
+  background-color: #000;            /* black background */
+  color: #fff;                       /* white text */
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  margin: 0;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;                 /* no page scroll */
+  font-size: 18px;                   /* bigger base font */
+}
+
+/* Headings and status text */
+h1, #userCounter, #status, #queueStatus {
+  color: #fff;
+  font-weight: 600;
+  margin: 0 0 10px 0;
+}
+
+/* Input and button common styles */
+input[type="text"], #messageInput {
+  padding: 12px;
+  font-size: 18px;
+  border: 1.5px solid #ccc;
+  border-radius: 12px 0 0 12px;
+  background-color: #141414;
+  color: #fff;
+  outline: none;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  flex: 1;
+}
+
+input[type="text"]:focus, #messageInput:focus {
+  border-color: #5bc2e7;
+  box-shadow: 0 0 8px #5bc2e7;
+  background-color: #1e1e1e;
+}
+
+/* Button */
+button, #sendBtn {
+  padding: 12px 22px;
+  font-size: 18px;
+  border: none;
+  border-radius: 0 12px 12px 0;
+  background-color: #5bc2e7;
+  color: #000;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  border: 1px solid #5bc2e7;
+  border-left: none;
+}
+
+button:hover, #sendBtn:hover {
+  background-color: rgba(91, 194, 231, 0.8);
+}
+
+/* Containers */
+#inputContainer {
+  display: flex;
+  width: 60vw;
+  margin-bottom: 20px;
+}
+
+/* User counter */
+#userCounter {
+  font-weight: 600;
+  margin-top: 10px;
+}
+
+/* Status */
+#status {
+  margin-bottom: 10px;
+}
+
+/* Chat container */
+#chat {
+  width: 60vw;
+  height: 70vh;
+  background-color: #141414;
+  color: #fff;
+  padding: 16px;
+  font-family: monospace, monospace;
+  font-size: 18px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  border-radius: 10px;
+  outline: none;
+}
+
+
+#chat, #inputContainer {
+  width: 60vw;
+  max-width: 600px;  /* limit max size on big screens */
+  min-width: 300px;  /* minimum for small desktops */
+}
+
+@media (max-width: 600px) {
+  #chat, #inputContainer {
+    width: 90vw;     /* almost full width on small devices */
+    min-width: unset; /* remove min-width */
+  }
+}
+
+/* Chat messages */
+.chat-message {
+  max-width: 80%;
+  padding: 12px 18px;
+  border-radius: 18px;
+  font-size: 18px;
+  font-weight: 500;
+  word-wrap: break-word;
+}
+
+/* Left (partner) messages */
+.chat-message.left {
+  background-color: rgba(91, 194, 231, 0.3);
+  color: #fff;
+  align-self: flex-start;
+}
+
+/* Right (your) messages */
+.chat-message.right {
+  background-color: #5bc2e7;
+  color: #000;
+  align-self: flex-end;
+}
+
+/* Waiting page styles */
+body.waiting-page {
+  justify-content: center;
+  text-align: center;
+}
+/* For the username form container */
+form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px; /* space between input and button */
+  margin-bottom: 30px;
+}
+
+input[type="text"],
+button {
+  width: 250px; /* or 100% if you want full form width */
+  border-radius: 8px; /* round all corners */
+  /* remove previous side-specific border-radius */
+}
+
+input[type="text"] {
+  border-radius: 8px;
+  /* other styles stay */
+}
+
+button {
+  border-radius: 8px;
+  margin: 0; /* remove any left margin */
+}
+body.middled-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+}
+
+/* For larger screens (e.g., min-width 768px) add vertical centering */
+@media (min-width: 768px) {
+  body.middled-page {
+    justify-content: center;   /* vertical center */
+    min-height: 100vh;
+  }
+}
+/* For WebKit browsers (Chrome, Edge, Safari) */
+#chat::-webkit-scrollbar {
+  width: 10px;             /* thicker scrollbar */
+  background-color: #222;  /* scrollbar track background */
+  border-radius: 10px;
+}
+
+#chat::-webkit-scrollbar-thumb {
+  background-color: #5bc2e7;  /* bright blue thumb */
+  border-radius: 10px;
+  border: 2px solid #222;     /* padding around thumb */
+}
+
+#chat::-webkit-scrollbar-thumb:hover {
+  background-color: #3a9ccf;  /* darker on hover */
+}
+
+/* Firefox scrollbar styling */
+#chat {
+  scrollbar-width: thin;
+  scrollbar-color: #5bc2e7 #222; /* thumb color and track color */
+}
+#inputContainer {
+  display: flex;
+  width: 60vw; /* or 90vw on mobile */
+  margin-top: 12px;  /* ← this is the key part */
+  margin-bottom: 20px;
+}

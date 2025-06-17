@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+  <title>Enter Username</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body class="middled-page">
+  <h1>Welcome to kVinme</h1>
+  <form action="waiting.html" method="GET" onsubmit="sessionStorage.setItem('fromIndex', 'true')">
+
+    <input type="text" name="username" placeholder="Enter your username" required autocomplete="off" />
+    <button type="submit">Start Chat</button>
+    
+  </form>
+
+  <div id="userCounter">Users online: 0</div>
+
+  <script src="app.js"></script>
+  
+</body>
+</html>
