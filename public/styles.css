@@ -1,4 +1,3 @@
-/* Global styles */
 body {
   background-color: #000;            /* black background */
   color: #fff;                       /* white text */
@@ -198,7 +197,48 @@ body.middled-page {
 }
 #inputContainer {
   display: flex;
-  width: 60vw; /* or 90vw on mobile */
-  margin-top: 12px;  /* ← this is the key part */
-  margin-bottom: 20px;
+  width: 60vw;
+  max-width: 600px;
+  min-width: 300px;
+  margin: 12px auto 0 auto;
+  gap: 8px;
+  box-sizing: border-box;  /* include padding/border in width */
+  flex-wrap: nowrap;       /* prevent wrapping */
 }
+
+#messageInput {
+  flex-grow: 1;
+  min-width: 0;            /* allow shrinking if needed */
+  padding: 14px 12px;
+  font-size: 18px;
+  border-radius: 12px 0 0 12px;
+  box-sizing: border-box;  /* include padding in width */
+}
+
+#sendBtn {
+  flex-shrink: 0;          /* don’t shrink the button */
+  padding: 14px 24px;
+  font-size: 18px;
+  border-radius: 0 12px 12px 0;
+  box-sizing: border-box;
+}
+
+@media (max-width: 600px) {
+  #inputContainer {
+    width: 90vw;
+  }
+  #messageInput {
+    flex-basis: 75%;
+    font-size: 16px;
+  }
+  #sendBtn {
+    flex-basis: 23%;
+    font-size: 16px;
+    padding: 12px 0;
+  }
+}
+
+
+
+
+
