@@ -1,11 +1,9 @@
-// app.js
-
 function setupWebSocketCounter() {
     const userCounterEl = document.getElementById("userCounter");
     if (!userCounterEl) return;
 
     const protocol = window.location.protocol === "https:" ? "wss" : "ws";
-const ws = new WebSocket(`${protocol}://${window.location.host}`);
+    const ws = new WebSocket(`${protocol}://${window.location.host}`);
 
     ws.onopen = () => {
         console.log("WebSocket connected for user count");
@@ -41,7 +39,8 @@ function waitingPageLogic() {
         return;
     }
 
-    const ws = new WebSocket(`ws://${window.location.host}`);
+    const protocol = window.location.protocol === "https:" ? "wss" : "ws";
+    const ws = new WebSocket(`${protocol}://${window.location.host}`);
 
     ws.onopen = () => {
         ws.send(JSON.stringify({ type: "join", username }));
@@ -50,12 +49,8 @@ function waitingPageLogic() {
     ws.onmessage = (event) => {
         const data = JSON.parse(event.data);
         if (data.type === "match") {
-            // Set flag allowing access to chat.html
             sessionStorage.setItem('fromWaiting', 'true');
-
-            window.location.href = `chat.html?username=${encodeURIComponent(
-                username
-            )}&partner=${encodeURIComponent(data.username)}`;
+            window.location.href = `chat.html?username=${encodeURIComponent(username)}&partner=${encodeURIComponent(data.username)}`;
         }
     };
 
@@ -70,7 +65,6 @@ function chatPageLogic() {
         return;
     }
 
-    // Redirect if not coming from waiting page
     if (!sessionStorage.getItem('fromWaiting')) {
         window.location.href = "/";
         return;
@@ -93,7 +87,8 @@ function chatPageLogic() {
 
     statusDiv.innerText = `Chatting with ${partner}`;
 
-    const ws = new WebSocket(`ws://${window.location.host}`);
+    const protocol = window.location.protocol === "https:" ? "wss" : "ws";
+    const ws = new WebSocket(`${protocol}://${window.location.host}`);
 
     ws.onopen = () => {
         ws.send(JSON.stringify({ type: "join", username }));
@@ -130,13 +125,12 @@ function chatPageLogic() {
     function appendMessage(sender, text) {
         const message = document.createElement("div");
         message.classList.add("chat-message");
-        message.innerText = text; // removed sender name display
+        message.innerText = text;
         message.classList.add(sender === "You" ? "right" : "left");
         chatArea.appendChild(message);
         chatArea.scrollTop = chatArea.scrollHeight;
     }
 
-    // Clear access flag when leaving chat page
     window.addEventListener('beforeunload', () => {
         sessionStorage.removeItem('fromWaiting');
     });
@@ -150,7 +144,6 @@ document.addEventListener("DOMContentLoaded", () => {
     } else if (window.location.pathname.endsWith("chat.html")) {
         chatPageLogic();
     } else if (window.location.pathname.endsWith("index.html") || window.location.pathname === "/") {
-        // On main index page, set 'fromIndex' flag
         sessionStorage.setItem('fromIndex', 'true');
     }
 });
