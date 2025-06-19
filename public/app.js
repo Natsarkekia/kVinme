@@ -85,7 +85,7 @@ function chatPageLogic() {
     const input = document.getElementById("messageInput");
     const sendBtn = document.getElementById("sendBtn");
 
-    statusDiv.innerText = `Chatting with ${partner}`;
+    statusDiv.innerText = `${username} is chatting with ${partner}`;
 
     const protocol = window.location.protocol === "https:" ? "wss" : "ws";
     const ws = new WebSocket(`${protocol}://${window.location.host}`);

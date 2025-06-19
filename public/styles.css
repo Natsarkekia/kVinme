@@ -10,6 +10,11 @@ body {
   min-height: 100vh;                 /* no page scroll */
   font-size: 18px;                   /* bigger base font */
 }
+@media (min-width: 1024px) {
+  body {
+    overflow: hidden;
+  }
+}
 
 /* Headings and status text */
 h1, #userCounter, #status, #queueStatus {
