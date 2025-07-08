@@ -1,22 +1,25 @@
+// app.js
+let ws; // global WebSocket
+
 function setupWebSocketCounter() {
     const userCounterEl = document.getElementById("userCounter");
     if (!userCounterEl) return;
 
     const protocol = window.location.protocol === "https:" ? "wss" : "ws";
-    const ws = new WebSocket(`${protocol}://${window.location.host}`);
+    const counterWS = new WebSocket(`${protocol}://${window.location.host}`);
 
-    ws.onopen = () => {
+    counterWS.onopen = () => {
         console.log("WebSocket connected for user count");
     };
 
-    ws.onmessage = (event) => {
+    counterWS.onmessage = (event) => {
         const data = JSON.parse(event.data);
         if (data.type === "userCount") {
             userCounterEl.innerText = `Users online: ${data.totalUsers}`;
         }
     };
 
-    ws.onerror = () => {
+    counterWS.onerror = () => {
         userCounterEl.innerText = "Users online: unavailable";
     };
 }
@@ -40,7 +43,7 @@ function waitingPageLogic() {
     }
 
     const protocol = window.location.protocol === "https:" ? "wss" : "ws";
-    const ws = new WebSocket(`${protocol}://${window.location.host}`);
+    ws = new WebSocket(`${protocol}://${window.location.host}`);
 
     ws.onopen = () => {
         ws.send(JSON.stringify({ type: "join", username }));
@@ -60,6 +63,7 @@ function waitingPageLogic() {
 }
 
 function chatPageLogic() {
+    
     if (performance.getEntriesByType("navigation")[0]?.type === "reload") {
         window.location.href = "/";
         return;
@@ -84,11 +88,13 @@ function chatPageLogic() {
     const chatArea = document.getElementById("chat");
     const input = document.getElementById("messageInput");
     const sendBtn = document.getElementById("sendBtn");
+    const gifInput = document.getElementById("gif-search");
+    const gifResults = document.getElementById("gif-results");
 
     statusDiv.innerText = `${username} is chatting with ${partner}`;
 
     const protocol = window.location.protocol === "https:" ? "wss" : "ws";
-    const ws = new WebSocket(`${protocol}://${window.location.host}`);
+    ws = new WebSocket(`${protocol}://${window.location.host}`);
 
     ws.onopen = () => {
         ws.send(JSON.stringify({ type: "join", username }));
@@ -125,7 +131,7 @@ function chatPageLogic() {
     function appendMessage(sender, text) {
         const message = document.createElement("div");
         message.classList.add("chat-message");
-        message.innerText = text;
+        message.innerHTML = text; // Allow GIFs
         message.classList.add(sender === "You" ? "right" : "left");
         chatArea.appendChild(message);
         chatArea.scrollTop = chatArea.scrollHeight;
@@ -133,6 +139,38 @@ function chatPageLogic() {
 
     window.addEventListener('beforeunload', () => {
         sessionStorage.removeItem('fromWaiting');
+    });
+
+    // GIPHY Integration
+    const GIPHY_API_KEY = 'uhVSwNC2iCseHNMz92EEIC3SSQg2vsQw'; // Replace with your real key
+    gifInput?.addEventListener('input', async function () {
+        const query = this.value.trim();
+        if (!query) {
+            gifResults.innerHTML = '';
+            return;
+        }
+
+        try {
+            const res = await fetch(`https://api.giphy.com/v1/gifs/search?api_key=${GIPHY_API_KEY}&q=${encodeURIComponent(query)}&limit=10`);
+            const data = await res.json();
+
+            gifResults.innerHTML = '';
+            data.data.forEach(gif => {
+                const img = document.createElement('img');
+                img.src = gif.images.fixed_height_small.url;
+                img.style.cursor = 'pointer';
+                img.onclick = () => {
+                    ws.send(JSON.stringify({
+                        type: "message",
+                        text: `<img src='${gif.images.original.url}' class='gif'>`
+                    }));
+                    appendMessage("You", `<img src='${gif.images.original.url}' class='gif'>`);
+                };
+                gifResults.appendChild(img);
+            });
+        } catch (err) {
+            console.error('GIF search failed:', err);
+        }
     });
 }
 
@@ -146,4 +184,20 @@ document.addEventListener("DOMContentLoaded", () => {
     } else if (window.location.pathname.endsWith("index.html") || window.location.pathname === "/") {
         sessionStorage.setItem('fromIndex', 'true');
     }
+});
+const toggleGifBtn = document.getElementById("toggle-gif-search");
+const gifModal = document.getElementById("gif-modal");
+const gifInput = document.getElementById("gif-search");
+const gifResults = document.getElementById("gif-results");
+const closeGifModal = document.getElementById("close-gif-modal");
+
+toggleGifBtn?.addEventListener("click", () => {
+  gifModal.style.display = "block";
+  gifInput.focus();
+});
+
+closeGifModal?.addEventListener("click", () => {
+  gifModal.style.display = "none";
+  gifInput.value = "";
+  gifResults.innerHTML = "";
 });
