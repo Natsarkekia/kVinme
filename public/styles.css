@@ -108,15 +108,20 @@ button:hover, #sendBtn:hover {
     width: 90vw;     /* almost full width on small devices */
     min-width: unset; /* remove min-width */
   }
-  .chat-message img.gif {
-    max-width: 100%;
-    height: auto;
-    display: block;
-    border-radius: 6px;
-  }
+
   body {
     overflow-x: hidden;
   }
+}
+
+/* i have no clue what i wrote months ago in the media 600 selector
+so i will just put this out of there to have gif borders generally
+have borders adjusted and not only for small devices */
+.chat-message img.gif {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 6px;
 }
 
 /* Chat messages */
