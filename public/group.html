@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Group Chat</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="icon" href="favicongroup.ico" type="image/x-icon" />
+</head>
+<body class="group-theme">
+  <div id="status">Connecting...</div>
+  <div id="chat" class="chat-box"></div>
+  <div id="inputContainer">
+    <input id="messageInput" type="text" placeholder="Type your message..." autocomplete="off" />
+    <button id="sendBtn">Send</button>
+    <button id="toggle-gif-search">👅 GIF</button>
+
+    <div id="gif-modal" class="gif-modal">
+      <div class="gif-modal-content">
+        <input type="text" id="gif-search" placeholder="Search GIFs..." />
+        <div id="gif-results" class="gif-grid"></div>
+        <button id="close-gif-modal">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="userCounter">Users online: 0</div>
+
+  <script src="app.js"></script>
+</body>
+</html>
