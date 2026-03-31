@@ -330,6 +330,118 @@ body.middled-page {
 #toggle-gif-search {
   padding: 12px 10px;
   font-size: 16px;
-  width: 20%; /* or whatever smaller width you want */
+  width: 20%;
   border-radius: 8px;
+}
+
+/* Purple for Join Group Chat button on index */
+.btn-group {
+  background-color: #7c3aed;
+  border-color: #7c3aed;
+  color: #fff;
+}
+
+.btn-group:hover {
+  background-color: rgba(168, 85, 247, 0.8);
+}
+
+/* Group chat purple theme */
+.group-theme #status {
+  color: #a855f7;
+}
+
+.group-theme #chat {
+  border: 1px solid rgba(168, 85, 247, 0.2);
+}
+
+.group-theme #messageInput:focus {
+  border-color: #a855f7;
+  box-shadow: 0 0 8px #a855f7;
+}
+
+.group-theme #sendBtn {
+  background-color: #7c3aed;
+  border-color: #7c3aed;
+  color: #fff;
+}
+
+.group-theme #sendBtn:hover {
+  background-color: rgba(168, 85, 247, 0.8);
+}
+
+.group-theme #toggle-gif-search {
+  background-color: transparent;
+  border: 1px solid #7c3aed;
+  color: #7c3aed;
+  border-radius: 8px;
+}
+
+.group-theme .chat-message.left {
+  background-color: rgba(168, 85, 247, 0.2);
+}
+
+.group-theme .chat-message.right {
+  background-color: #7c3aed;
+  color: #fff;
+}
+
+.group-theme .chat-message.left .sender-name {
+  color: #a855f7;
+}
+
+.group-theme .chat-message.right .sender-name {
+  color: #fff;
+}
+
+.group-theme .join-notice {
+  color: #a855f7;
+  opacity: 0.5;
+  border-color: rgba(168, 85, 247, 0.25);
+  background: rgba(168, 85, 247, 0.07);
+}
+
+.join-notice {
+  align-self: center;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #5bc2e7;
+  opacity: 0.5;
+  padding: 4px 12px;
+  border-radius: 99px;
+  border: 1px solid rgba(91, 194, 231, 0.25);
+  background: rgba(91, 194, 231, 0.07);
+}
+
+.sender-name {
+  display: block;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  opacity: 0.6;
+  margin-bottom: 3px;
+}
+
+.group-theme .gif-modal-content input {
+  border-color: #7c3aed;
+}
+
+.group-theme .gif-modal-content input:focus {
+  border-color: #7c3aed;
+  box-shadow: 0 0 8px #7c3aed;
+}
+
+.group-theme .gif-modal-content button {
+  background-color: #7c3aed;
+  border-color: #7c3aed;
+}
+
+.chat-message.left .sender-name {
+  color: #5bc2e7;
+}
+
+.chat-message.right .sender-name {
+  color: #000;
 }

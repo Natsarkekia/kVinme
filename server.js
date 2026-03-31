@@ -8,13 +8,15 @@ const wss = new WebSocket.Server({ server });
 
 const waitingUsers = [];
 const activePairs = new Map();
+const groupUsers = new Set();
 
 app.use(express.static("public"));
 
 function broadcastUserCount() {
   const waitingCount = waitingUsers.length;
-  const chattingCount = activePairs.size / 2 * 2; // Number of chatting users
-  const totalUsers = waitingCount + chattingCount;
+  const chattingCount = activePairs.size;
+  const groupCount = groupUsers.size;
+  const totalUsers = waitingCount + chattingCount + groupCount;
 
   const msg = JSON.stringify({ type: "userCount", totalUsers });
 
@@ -51,6 +53,21 @@ wss.on("connection", (ws) => {
       }
     }
 
+    if (data.type === "join_group") {
+      ws.username = data.username;
+      ws.inGroup = true;
+      groupUsers.add(ws);
+
+      // tell everyone else in the group that this user joined
+      groupUsers.forEach((client) => {
+        if (client !== ws && client.readyState === WebSocket.OPEN) {
+          client.send(JSON.stringify({ type: "user_joined", username: ws.username }));
+        }
+      });
+
+      broadcastUserCount();
+    }
+
     if (data.type === "message") {
       const partner = activePairs.get(ws);
       if (partner && partner.readyState === WebSocket.OPEN) {
@@ -62,6 +79,20 @@ wss.on("connection", (ws) => {
           })
         );
       }
+    }
+
+    if (data.type === "group_message") {
+      groupUsers.forEach((client) => {
+        if (client !== ws && client.readyState === WebSocket.OPEN) {
+          client.send(
+            JSON.stringify({
+              type: "group_message",
+              from: ws.username,
+              text: data.text,
+            })
+          );
+        }
+      });
     }
   });
 
@@ -78,6 +109,8 @@ wss.on("connection", (ws) => {
 
     const index = waitingUsers.indexOf(ws);
     if (index !== -1) waitingUsers.splice(index, 1);
+
+    groupUsers.delete(ws);
 
     broadcastUserCount();
   });

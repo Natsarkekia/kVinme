@@ -2,23 +2,36 @@
 <html lang="en">
 <head>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-
   <title>Enter Username</title>
   <link rel="stylesheet" href="styles.css" />
   <link rel="icon" href="favicon.ico" type="image/x-icon" />
 </head>
 <body class="middled-page">
   <h1>Welcome to kVinme</h1>
-  <form action="waiting.html" method="GET" onsubmit="sessionStorage.setItem('fromIndex', 'true')">
 
-    <input type="text" name="username" placeholder="Enter your username" required autocomplete="off" />
-    <button type="submit">Start Chat</button>
-    
-  </form>
+  <div style="display:flex; flex-direction:column; align-items:center; gap:12px; margin-bottom:30px;">
+    <input type="text" id="usernameInput" placeholder="Enter your username" maxlength="30" required autocomplete="off" />
+    <button onclick="startChat()">Start Chat</button>
+    <button class="btn-group" onclick="joinGroup()">Join Group Chat</button>
+  </div>
 
   <div id="userCounter">Users online: 0</div>
 
   <script src="app.js"></script>
-  
+  <script>
+    function startChat() {
+      const username = document.getElementById('usernameInput').value.trim();
+      if (!username) return alert("Please enter a username.");
+      sessionStorage.setItem('fromIndex', 'true');
+      window.location.href = `waiting.html?username=${encodeURIComponent(username)}`;
+    }
+
+    function joinGroup() {
+      const username = document.getElementById('usernameInput').value.trim();
+      if (!username) return alert("Please enter a username.");
+      sessionStorage.setItem('fromIndex', 'true');
+      window.location.href = `group.html?username=${encodeURIComponent(username)}`;
+    }
+  </script>
 </body>
 </html>
